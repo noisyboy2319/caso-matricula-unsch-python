@@ -1,0 +1,59 @@
+
+class MatriculaConfigurable:
+    def __init__(
+        self,
+        estudiante,
+        extemporanea=False,
+        indice_desaprobatorio=False,
+        becado=False,
+        beca_al_final=True
+    ):
+        self.estudiante = estudiante
+        self.extemporanea = extemporanea
+        self.indice_desaprobatorio = indice_desaprobatorio
+        self.becado = becado
+        self.beca_al_final = beca_al_final
+
+    def costo(self):
+        monto = 60.00
+
+        recargos = []
+
+        if self.extemporanea:
+            recargos.append(15.00)
+
+        if self.indice_desaprobatorio:
+            recargos.append(15.00)
+
+        if self.becado and not self.beca_al_final:
+            monto *= 0.50
+
+        for recargo in recargos:
+            monto += recargo
+
+        if self.becado and self.beca_al_final:
+            monto *= 0.50
+
+        return monto
+
+
+
+luis = MatriculaConfigurable(
+    "Luis Huamaní Cárdenas",
+    extemporanea=True,
+    indice_desaprobatorio=True,
+    becado=True,
+    beca_al_final=True
+)
+
+
+rosa = MatriculaConfigurable(
+    "Rosa Ccahuana Prado",
+    extemporanea=True,
+    indice_desaprobatorio=True,
+    becado=True,
+    beca_al_final=False
+)
+
+print(luis.estudiante, f": S/ {luis.costo():.2f}")
+print(rosa.estudiante, f": S/ {rosa.costo():.2f}")
